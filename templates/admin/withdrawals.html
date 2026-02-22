@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Manage Withdrawals - Admin Panel{% endblock %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h3 class="fw-bold text-primary">Pending Withdrawal Requests</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card p-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Amount</th>
+                            <th>UPI ID</th>
+                            <th>Requested At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if withdrawals %}
+                            {% for w in withdrawals %}
+                                <tr>
+                                    <td>{{ w.user_rel.name }}<br><small class="text-muted">{{ w.user_rel.mobile }}</small></td>
+                                    <td>₹{{ "%.2f"|format(w.amount) }}</td>
+                                    <td><span class="fw-bold text-primary">{{ w.upi_id }}</span></td>
+                                    <td>{{ w.requested_at.strftime('%d %b %Y %H:%M') }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#payModal{{ w.id }}">Mark as Paid</button>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Pay Modal -->
+                                <div class="modal fade" id="payModal{{ w.id }}" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Process Payment</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <form action="{{ url_for('pay_withdrawal', w_id=w.id) }}" method="POST" enctype="multipart/form-data">
+                                                <div class="modal-body text-center">
+                                                    <p class="mb-3">Pay <strong>₹{{ "%.2f"|format(w.amount) }}</strong> to UPI ID <strong>{{ w.upi_id }}</strong></p>
+                                                    <div class="mb-3 text-start">
+                                                        <label for="proof" class="form-label">Upload Payment Proof (Screenshot)</label>
+                                                        <input type="file" class="form-control" id="proof" name="proof" accept="image/*">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-success">Confirm Paid</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5">No pending withdrawal requests found.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

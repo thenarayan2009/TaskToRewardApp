@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Available Tasks - Task To Reward{% endblock %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h3 class="fw-bold text-primary mb-3">Available Tasks</h3>
+        <p class="text-muted">Complete these simple tasks to earn rewards. Make sure to read the instructions carefully!</p>
+    </div>
+</div>
+
+<div class="row">
+    {% if tasks %}
+        {% for task in tasks %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 p-4 shadow-sm">
+                    <h5 class="fw-bold mb-3">{{ task.title }}</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-success px-3 py-2 fs-6">Reward: ₹{{ "%.2f"|format(task.reward) }}</span>
+                    </div>
+                    <p class="text-muted small mb-4">{{ task.instructions[:100] }}{% if task.instructions|length > 100 %}...{% endif %}</p>
+                    <div class="d-grid mt-auto">
+                        <a href="{{ url_for('task_detail', task_id=task.id) }}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="card p-5 text-center">
+                <h5 class="text-muted">No active tasks available at the moment. Please check back later!</h5>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

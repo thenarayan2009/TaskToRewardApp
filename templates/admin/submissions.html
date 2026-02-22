@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}Verify Proofs - Admin Panel{% endblock %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h3 class="fw-bold text-primary">Pending Task Verifications</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card p-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Task</th>
+                            <th>Reward</th>
+                            <th>Screenshot</th>
+                            <th>Date Submitted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if submissions %}
+                            {% for sub in submissions %}
+                                <tr>
+                                    <td>{{ sub.user_rel.name }}<br><small class="text-muted">{{ sub.user_rel.email }}</small></td>
+                                    <td>{{ sub.task_rel.title }}</td>
+                                    <td>₹{{ "%.2f"|format(sub.task_rel.reward) }}</td>
+                                    <td>
+                                        <a href="{{ url_for('static', filename='uploads/' + sub.screenshot) }}" target="_blank" class="btn btn-sm btn-outline-info">View Screenshot</a>
+                                    </td>
+                                    <td>{{ sub.submitted_at.strftime('%d %b %Y %H:%M') }}</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <a href="{{ url_for('approve_task', sub_id=sub.id) }}" class="btn btn-sm btn-success" onclick="return confirm('Approve this task and credit ₹{{ sub.task_rel.reward }}?')">Approve</a>
+                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal{{ sub.id }}">Reject</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Reject Modal -->
+                                <div class="modal fade" id="rejectModal{{ sub.id }}" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Reject Submission</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <form action="{{ url_for('reject_task', sub_id=sub.id) }}" method="POST">
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label for="reason" class="form-label">Reason for Rejection</label>
+                                                        <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="e.g., Fake screenshot, incorrect proof" required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-danger">Confirm Rejection</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center py-5">No pending task submissions found.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Withdrawal History - Task To Reward{% endblock %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h3 class="fw-bold text-primary mb-3">Withdrawal History</h3>
+        <p class="text-muted">Track your withdrawal requests and their payment status.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card p-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>UPI ID</th>
+                            <th>Status</th>
+                            <th>Requested At</th>
+                            <th>Action/Proof</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if withdrawals %}
+                            {% for w in withdrawals %}
+                                <tr>
+                                    <td>₹{{ "%.2f"|format(w.amount) }}</td>
+                                    <td>{{ w.upi_id }}</td>
+                                    <td>
+                                        <span class="badge {% if w.status == 'Pending' %}bg-warning{% elif w.status == 'Paid' %}bg-success{% else %}bg-danger{% endif %} px-3 py-2 fs-6">
+                                            {{ w.status }}
+                                        </span>
+                                    </td>
+                                    <td>{{ w.requested_at.strftime('%d %b %Y %H:%M') }}</td>
+                                    <td>
+                                        {% if w.status == 'Paid' and w.payment_proof %}
+                                            <a href="{{ url_for('static', filename='uploads/' + w.payment_proof) }}" target="_blank" class="btn btn-sm btn-outline-success">View Proof</a>
+                                        {% elif w.status == 'Paid' %}
+                                            <span class="text-success small">Paid (No proof uploaded)</span>
+                                        {% elif w.status == 'Rejected' %}
+                                            <span class="text-danger small">Rejected</span>
+                                        {% else %}
+                                            <span class="text-muted small">Pending Payment</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5">No withdrawal history found.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

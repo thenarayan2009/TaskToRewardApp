@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Task To Reward - Earn Money by Completing Simple Tasks{% endblock %}
+{% block content %}
+<div class="row align-items-center py-5">
+    <div class="col-lg-6 mb-4 mb-lg-0">
+        <h1 class="display-4 fw-bold mb-4 text-primary">Earn Money by Completing Simple Tasks</h1>
+        <p class="lead mb-4 text-secondary">Task To Reward is a trust-based platform where you can earn rewards by performing simple tasks and uploading proof. Join our community of earners today!</p>
+        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-lg-start">
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-4 me-sm-3">Get Started</a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg px-4">Login</a>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-4 text-center">
+            <h3 class="fw-bold mb-4">How It Works</h3>
+            <div class="row">
+                <div class="col-4">
+                    <div class="bg-light p-3 rounded-circle mb-3 mx-auto" style="width: 60px; height: 60px;">1</div>
+                    <p class="small fw-bold">Register</p>
+                </div>
+                <div class="col-4">
+                    <div class="bg-light p-3 rounded-circle mb-3 mx-auto" style="width: 60px; height: 60px;">2</div>
+                    <p class="small fw-bold">Complete Task</p>
+                </div>
+                <div class="col-4">
+                    <div class="bg-light p-3 rounded-circle mb-3 mx-auto" style="width: 60px; height: 60px;">3</div>
+                    <p class="small fw-bold">Get Paid</p>
+                </div>
+            </div>
+            <p class="text-muted mt-3 small">Manual verification ensures a fair platform for everyone.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row my-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 p-4">
+            <h5 class="fw-bold text-primary mb-3">Simple Tasks</h5>
+            <p class="text-muted">No complex skills required. Just follow simple instructions and earn.</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 p-4">
+            <h5 class="fw-bold text-primary mb-3">Secure Wallet</h5>
+            <p class="text-muted">Your earnings are tracked and stored securely in your personal wallet.</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 p-4">
+            <h5 class="fw-bold text-primary mb-3">Easy Withdrawals</h5>
+            <p class="text-muted">Withdraw your earnings directly to your UPI ID once you reach the minimum limit.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Task To Reward{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card p-3 text-center">
+            <h6 class="text-muted small mb-1">Wallet Balance</h6>
+            <h3 class="fw-bold text-primary">₹{{ "%.2f"|format(user.wallet_balance) }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card p-3 text-center">
+            <h6 class="text-muted small mb-1">Total Earnings</h6>
+            <h3 class="fw-bold text-success">₹{{ "%.2f"|format(user.total_earnings) }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card p-3 text-center">
+            <h6 class="text-muted small mb-1">Total Withdrawn</h6>
+            <h3 class="fw-bold text-danger">₹{{ "%.2f"|format(user.total_withdrawn) }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card p-3 text-center">
+            <h6 class="text-muted small mb-1">Account Status</h6>
+            <h3 class="fw-bold {% if user.is_blocked %}text-danger{% else %}text-info{% endif %}">
+                {% if user.is_blocked %}Blocked{% else %}Active{% endif %}
+            </h3>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 p-4">
+            <h5 class="fw-bold mb-3">Quick Actions</h5>
+            <div class="d-grid gap-3">
+                <a href="{{ url_for('tasks') }}" class="btn btn-primary btn-lg">Browse Tasks</a>
+                <a href="{{ url_for('withdraw') }}" class="btn btn-outline-primary btn-lg">Request Withdrawal</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 p-4">
+            <h5 class="fw-bold mb-3">Account Details</h5>
+            <p class="mb-2"><strong>Name:</strong> {{ user.name }}</p>
+            <p class="mb-2"><strong>Email:</strong> {{ user.email }}</p>
+            <p class="mb-2"><strong>Mobile:</strong> {{ user.mobile }}</p>
+            <p class="mb-0"><strong>Joined:</strong> {{ user.created_at.strftime('%d %b %Y') }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

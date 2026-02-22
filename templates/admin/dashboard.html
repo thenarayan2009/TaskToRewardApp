@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard - Task To Reward{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card p-3 text-center bg-primary text-white">
+            <h6 class="small mb-1">Total Users</h6>
+            <h3 class="fw-bold">{{ stats.total_users }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card p-3 text-center bg-warning text-dark">
+            <h6 class="small mb-1">Pending Tasks</h6>
+            <h3 class="fw-bold">{{ stats.pending_tasks }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card p-3 text-center bg-danger text-white">
+            <h6 class="small mb-1">Pending Withdrawals</h6>
+            <h3 class="fw-bold">{{ stats.pending_withdrawals }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card p-3 text-center bg-success text-white">
+            <h6 class="small mb-1">Total Earnings Paid</h6>
+            <h3 class="fw-bold">₹{{ "%.2f"|format(stats.total_earnings) }}</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12 mb-4">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-3 text-primary">Admin Quick Links</h5>
+            <div class="row text-center">
+                <div class="col-md-2 mb-3">
+                    <a href="{{ url_for('admin_tasks') }}" class="btn btn-outline-primary w-100 py-3">
+                        <i class="bi bi-list-task d-block mb-2 fs-4"></i>
+                        Manage Tasks
+                    </a>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <a href="{{ url_for('admin_submissions') }}" class="btn btn-outline-warning w-100 py-3">
+                        <i class="bi bi-check-circle d-block mb-2 fs-4"></i>
+                        Verify Proofs
+                    </a>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <a href="{{ url_for('admin_withdrawals') }}" class="btn btn-outline-danger w-100 py-3">
+                        <i class="bi bi-cash-stack d-block mb-2 fs-4"></i>
+                        Withdrawals
+                    </a>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <a href="{{ url_for('admin_users') }}" class="btn btn-outline-info w-100 py-3">
+                        <i class="bi bi-people d-block mb-2 fs-4"></i>
+                        Manage Users
+                    </a>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <a href="{{ url_for('admin_settings') }}" class="btn btn-outline-secondary w-100 py-3">
+                        <i class="bi bi-gear d-block mb-2 fs-4"></i>
+                        Settings
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Task History - Task To Reward{% endblock %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h3 class="fw-bold text-primary mb-3">Task History</h3>
+        <p class="text-muted">Track your submitted tasks and their approval status.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card p-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Task Name</th>
+                            <th>Reward</th>
+                            <th>Status</th>
+                            <th>Date Submitted</th>
+                            <th>Action/Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if submissions %}
+                            {% for sub in submissions %}
+                                <tr>
+                                    <td>{{ sub.task_rel.title }}</td>
+                                    <td>₹{{ "%.2f"|format(sub.task_rel.reward) }}</td>
+                                    <td>
+                                        <span class="badge {% if sub.status == 'Pending' %}bg-warning{% elif sub.status == 'Approved' %}bg-success{% else %}bg-danger{% endif %} px-3 py-2 fs-6">
+                                            {{ sub.status }}
+                                        </span>
+                                    </td>
+                                    <td>{{ sub.submitted_at.strftime('%d %b %Y %H:%M') }}</td>
+                                    <td>
+                                        {% if sub.status == 'Rejected' %}
+                                            <span class="text-danger small">{{ sub.rejection_reason }}</span>
+                                        {% elif sub.status == 'Approved' %}
+                                            <span class="text-success small">Approved</span>
+                                        {% else %}
+                                            <span class="text-muted small">Pending Verification</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5">No task history found.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Task Detail - Task To Reward{% endblock %}
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-lg-8">
+        <div class="card p-4">
+            <h2 class="fw-bold mb-4 text-primary">{{ task.title }}</h2>
+            <div class="mb-4">
+                <span class="badge bg-success px-3 py-2 fs-6">Reward: ₹{{ "%.2f"|format(task.reward) }}</span>
+            </div>
+            
+            <h5 class="fw-bold mb-3">Instructions:</h5>
+            <p class="text-secondary mb-4">{{ task.instructions }}</p>
+            
+            <hr class="my-4">
+            
+            <h5 class="fw-bold mb-3">Submit Your Proof:</h5>
+            <form method="POST" enctype="multipart/form-data">
+                <div class="mb-4">
+                    <label for="screenshot" class="form-label">Upload Screenshot (Proof)</label>
+                    <input type="file" class="form-control" id="screenshot" name="screenshot" accept="image/*" required>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">Submit Task</button>
+                </div>
+                <p class="text-center mt-3 mb-0 small text-muted">By submitting, you agree to our <a href="{{ url_for('about') }}" class="text-decoration-none">Terms and Conditions</a>.</p>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
